@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout — ShopNova</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .page-hero { padding: 140px 5% 60px; text-align: center; background: radial-gradient(ellipse at top, rgba(108,99,255,0.1) 0%, transparent 60%); }
+    .page-hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; }
+    .checkout-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; padding: 40px 5% 80px; }
+    .checkout-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+    .checkout-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+    .checkout-card h3 i { color: var(--primary); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group select {
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+    .form-group input::placeholder { color: var(--text-muted); }
+    .payment-methods { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .pay-method {
+      padding: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.5rem;
+      color: var(--text-muted);
+    }
+    .pay-method.selected, .pay-method:hover { border-color: var(--primary); background: rgba(108,99,255,0.1); color: var(--primary); }
+    .order-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .order-img { width: 60px; height: 60px; background: var(--dark-2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--text-muted); flex-shrink: 0; }
+    .order-item-info { flex: 1; }
+    .order-item-info h5 { font-size: 0.9rem; font-weight: 600; }
+    .order-item-info span { font-size: 0.8rem; color: var(--text-muted); }
+    .order-item strong { color: var(--primary); font-weight: 700; }
+    .order-summary-line { display: flex; justify-content: space-between; padding: 10px 0; font-size: 0.9rem; color: var(--text-muted); }
+    .order-summary-line.total { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px; color: white; font-weight: 700; font-size: 1rem; }
+    .order-summary-line.total strong { color: var(--primary); font-size: 1.2rem; }
+    .secure-badge { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.8rem; margin-top: 16px; justify-content: center; }
+    .secure-badge i { color: var(--accent); }
+    @media(max-width: 900px) { .checkout-layout { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">Shop<span>Nova</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="deals.html">Deals</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="toggleCart()"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1>Secure <span class="gradient-text">Checkout</span></h1>
+  <p>Complete your purchase safely and securely</p>
+</div>
+
+<div class="checkout-layout">
+  <div>
+    <!-- SHIPPING INFO -->
+    <div class="checkout-card" style="margin-bottom:24px;">
+      <h3><i class="fas fa-map-marker-alt"></i> Shipping Information</h3>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="John"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Doe"/></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@example.com"/></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+1 (555) 000-0000"/></div>
+      <div class="form-group"><label>Street Address</label><input type="text" placeholder="123 Main Street"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input type="text" placeholder="New York"/></div>
+        <div class="form-group"><label>ZIP Code</label><input type="text" placeholder="10001"/></div>
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <select>
+          <option>United States</option>
+          <option>United Kingdom</option>
+          <option>Canada</option>
+          <option>Australia</option>
+          <option>Germany</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="checkout-card">
+      <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+      <div class="payment-methods">
+        <div class="pay-method selected" onclick="selectPay(this)"><i class="fab fa-cc-visa"></i><br/><small>Visa</small></div>
+        <div class="pay-method" onclick="selectPay(this)"><i class="fab fa-cc-mastercard"></i><br/><small>Mastercard</small></div>
+        <div class="pay-method" onclick="selectPay(this)"><i class="fab fa-cc-paypal"></i><br/><small>PayPal</small></div>
+      </div>
+      <div class="form-group"><label>Card Number</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Expiry Date</label><input type="text" placeholder="MM / YY"/></div>
+        <div class="form-group"><label>CVV</label><input type="text" placeholder="123" maxlength="3"/></div>
+      </div>
+      <div class="form-group"><label>Name on Card</label><input type="text" placeholder="John Doe"/></div>
+    </div>
+  </div>
+
+  <!-- ORDER SUMMARY -->
+  <div>
+    <div class="checkout-card" style="position:sticky;top:90px;">
+      <h3><i class="fas fa-receipt"></i> Order Summary</h3>
+      <div class="order-item">
+        <div class="order-img"><i class="fas fa-headphones"></i></div>
+        <div class="order-item-info"><h5>Wireless Headphones</h5><span>Qty: 1</span></div>
+        <strong>$149.99</strong>
+      </div>
+      <div class="order-item">
+        <div class="order-img"><i class="fas fa-tshirt"></i></div>
+        <div class="order-item-info"><h5>Premium Hoodie</h5><span>Qty: 1 — Size: M</span></div>
+        <strong>$59.99</strong>
+      </div>
+      <div style="padding-top:16px;">
+        <div class="order-summary-line"><span>Subtotal</span><span>$209.98</span></div>
+        <div class="order-summary-line"><span>Shipping</span><span style="color:var(--accent)">FREE</span></div>
+        <div class="order-summary-line"><span>Tax (8%)</span><span>$16.80</span></div>
+        <div class="order-summary-line total"><span>Total</span><strong>$226.78</strong></div>
+      </div>
+      <button class="btn btn-primary w-full" style="margin-top:20px;" onclick="placeOrder()">
+        <i class="fas fa-lock"></i> Place Order
+      </button>
+      <div class="secure-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted Checkout</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="footer">
+  <div class="footer-bottom" style="justify-content:center;">
+    <p>© 2025 ShopNova. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function selectPay(el) {
+  document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function placeOrder() {
+  showToast('Order placed successfully! Thank you 🎉');
+  setTimeout(() => window.location.href = 'index.html', 2500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deals — ShopNova</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+
+    /* ── PAGE HERO ── */
+    .deals-hero {
+      padding: 140px 5% 70px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .deals-hero::before {
+      content: '';
+      position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(255,101,132,0.12) 0%, transparent 65%);
+      top: -300px; left: 50%; transform: translateX(-50%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .deals-hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(108,99,255,0.1) 0%, transparent 65%);
+      bottom: 0; right: 5%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .deals-hero .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,101,132,0.15);
+      border: 1px solid rgba(255,101,132,0.35);
+      color: var(--secondary);
+      padding: 6px 18px; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 600; margin-bottom: 20px;
+    }
+    .deals-hero h1 { font-size: 3.2rem; font-weight: 800; margin-bottom: 14px; position: relative; }
+    .deals-hero p { color: var(--text-muted); font-size: 1rem; max-width: 520px; margin: 0 auto 36px; position: relative; }
+
+    /* ── GLOBAL COUNTDOWN ── */
+    .global-countdown {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 36px;
+      position: relative;
+    }
+    .global-countdown .cd-label {
+      font-size: 0.82rem; color: var(--text-muted); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .global-countdown .cd-blocks { display: flex; align-items: center; gap: 10px; }
+    .cd-unit {
+      display: flex; flex-direction: column; align-items: center;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 18px; min-width: 64px;
+    }
+    .cd-unit span { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+    .cd-unit label { font-size: 0.65rem; color: var(--text-muted); margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+    .cd-sep { font-size: 1.6rem; font-weight: 800; color: var(--secondary); }
+
+    /* ── DEAL FILTER TABS ── */
+    .deals-filters {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5% 40px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .deals-filter-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+    .deal-tab {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; transition: var(--transition);
+    }
+    .deal-tab i { font-size: 0.8rem; }
+    .deal-tab:hover, .deal-tab.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+    .deal-tab.active-primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .deals-sort select {
+      background: var(--card-bg); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 18px; border-radius: 12px;
+      font-size: 0.88rem; outline: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── FLASH DEALS BANNER ── */
+    .flash-banner {
+      margin: 0 5% 48px;
+      background: linear-gradient(135deg, #1a0033, #330020);
+      border: 1px solid rgba(255,101,132,0.25);
+      border-radius: 24px;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .flash-banner::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(255,101,132,0.15) 0%, transparent 70%);
+      right: -100px; top: -100px; border-radius: 50%;
+    }
+    .flash-banner::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(108,99,255,0.1) 0%, transparent 70%);
+      left: -50px; bottom: -100px; border-radius: 50%;
+    }
+    .flash-content { position: relative; z-index: 1; }
+    .flash-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--secondary); color: white;
+      padding: 5px 14px; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 700; margin-bottom: 14px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.7; } }
+    .flash-content h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+    .flash-content h2 span { color: var(--secondary); }
+    .flash-content p { color: var(--text-muted); font-size: 0.95rem; }
+    .flash-timer { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .flash-timer .timer-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .flash-timer .mini-countdown { display: flex; align-items: center; gap: 8px; }
+    .mini-cd-unit {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,101,132,0.2);
+      border-radius: 10px; padding: 10px 14px; min-width: 56px;
+    }
+    .mini-cd-unit span { font-size: 1.5rem; font-weight: 800; color: white; line-height: 1; }
+    .mini-cd-unit label { font-size: 0.6rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mini-sep { font-size: 1.4rem; font-weight: 800; color: var(--secondary); }
+
+    /* ── FEATURED DEAL CARD (wide) ── */
+    .featured-deal-section { padding: 0 5% 60px; }
+    .featured-deals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .featured-deal-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      min-height: 300px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .featured-deal-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,0.4); }
+    .featured-deal-card.large { min-height: 420px; }
+
+    .fd-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7rem; transition: var(--transition);
+    }
+    .featured-deal-card:hover .fd-bg { transform: scale(1.06); }
+    .fd-bg-1 { background: linear-gradient(135deg, #0d0021, #2d1060); color: rgba(108,99,255,0.35); }
+    .fd-bg-2 { background: linear-gradient(135deg, #1a0010, #5c0025); color: rgba(255,101,132,0.35); }
+    .fd-bg-3 { background: linear-gradient(135deg, #001a14, #005c3d); color: rgba(67,230,181,0.35); }
+    .fd-bg-4 { background: linear-gradient(135deg, #1a1000, #5c3800); color: rgba(255,193,7,0.35); }
+
+    .fd-info {
+      position: relative; z-index: 1; padding: 28px;
+      width: 100%;
+      background: linear-gradient(to top, rgba(15,14,23,0.97) 0%, rgba(15,14,23,0.4) 70%, transparent 100%);
+    }
+    .fd-discount {
+      display: inline-flex;
+      background: var(--secondary); color: white;
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 800; margin-bottom: 10px;
+    }
+    .fd-info h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .fd-info p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px; }
+    .fd-prices { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .fd-prices .now { font-size: 1.4rem; font-weight: 800; color: white; }
+    .fd-prices .was { font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through; }
+    .fd-stock { font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+    .stock-bar { width: 120px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+    .stock-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+    /* ── ALL DEALS GRID ── */
+    .all-deals-section { padding: 0 5% 80px; }
+    .all-deals-section .section-header { margin-bottom: 32px; }
+
+    /* Deal card — extends .product-card with a deal timer */
+    .deal-product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+    }
+    .deal-product-card:hover { transform: translateY(-6px); border-color: rgba(255,101,132,0.4); box-shadow: 0 8px 32px rgba(255,101,132,0.12); }
+
+    .deal-product-card .product-img { position: relative; height: 220px; overflow: hidden; }
+    .deal-product-card:hover .img-placeholder { transform: scale(1.05); }
+
+    .deal-timer-bar {
+      background: rgba(255,101,132,0.12);
+      border-top: 1px solid rgba(255,101,132,0.15);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .deal-timer-bar span { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .deal-timer-bar span i { color: var(--secondary); }
+    .deal-timer-bar strong { font-size: 0.82rem; color: var(--secondary); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .savings-tag {
+      position: absolute; top: 12px; right: 12px;
+      background: linear-gradient(135deg, var(--secondary), #ff3366);
+      color: white; padding: 5px 11px;
+      border-radius: 20px; font-size: 0.72rem; font-weight: 800;
+    }
+
+    /* ── COUPON SECTION ── */
+    .coupons-section { padding: 0 5% 80px; }
+    .coupons-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 32px; }
+    .coupons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .coupon-card {
+      background: var(--card-bg);
+      border: 2px dashed rgba(108,99,255,0.3);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .coupon-card:hover { border-color: var(--primary); background: rgba(108,99,255,0.05); }
+    .coupon-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: rgba(108,99,255,0.15);
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+    }
+    .coupon-icon.secondary { background: rgba(255,101,132,0.15); color: var(--secondary); }
+    .coupon-icon.accent { background: rgba(67,230,181,0.15); color: var(--accent); }
+    .coupon-info { flex: 1; }
+    .coupon-code {
+      font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;
+      color: white; margin-bottom: 4px;
+    }
+    .coupon-info p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; }
+    .copy-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.3);
+      color: var(--primary); padding: 6px 14px;
+      border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition); border: none;
+    }
+    .copy-btn:hover { background: var(--primary); color: white; }
+    .copy-btn.secondary-btn { background: rgba(255,101,132,0.15); color: var(--secondary); }
+    .copy-btn.secondary-btn:hover { background: var(--secondary); color: white; }
+    .copy-btn.accent-btn { background: rgba(67,230,181,0.15); color: var(--accent); }
+    .copy-btn.accent-btn:hover { background: var(--accent); color: var(--dark); }
+    .coupon-expiry { font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── NEWSLETTER ── */
+    .newsletter-section {
+      padding: 80px 5%; text-align: center;
+      background: var(--dark-2);
+    }
+    .newsletter-content { max-width: 600px; margin: 0 auto; }
+    .newsletter-section h2 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+    .newsletter-section p { color: var(--text-muted); margin-bottom: 32px; }
+    .newsletter-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; }
+    .newsletter-form input {
+      flex: 1; padding: 14px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border); border-radius: 50px;
+      color: white; font-size: 0.9rem; outline: none; transition: var(--transition);
+    }
+    .newsletter-form input:focus { border-color: var(--primary); }
+    .newsletter-form input::placeholder { color: var(--text-muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .flash-banner { flex-direction: column; text-align: center; padding: 32px 24px; }
+      .featured-deals-grid { grid-template-columns: 1fr; }
+      .coupons-grid { grid-template-columns: 1fr; }
+      .global-countdown { flex-direction: column; gap: 12px; }
+    }
+    @media (max-width: 768px) {
+      .deals-hero h1 { font-size: 2.3rem; }
+      .deals-filters { flex-direction: column; align-items: flex-start; }
+      .products-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 480px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="logo">Shop<span>Nova</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="deals.html" class="active">Deals</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="icon-btn"><i class="fas fa-search"></i></button>
+    <button class="icon-btn"><i class="fas fa-heart"></i><span class="badge">3</span></button>
+    <button class="icon-btn" onclick="toggleCart()"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></button>
+    <button class="icon-btn hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="categories.html">Categories</a>
+  <a href="deals.html">Deals</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- HERO -->
+<div class="deals-hero">
+  <span class="hero-tag"><i class="fas fa-bolt"></i> Limited Time Only</span>
+  <h1>Hot <span class="gradient-text">Deals</span> &amp; Offers</h1>
+  <p>Unbeatable prices on premium products. Grab them before they're gone!</p>
+  <div class="global-countdown">
+    <span class="cd-label">Sale ends in</span>
+    <div class="cd-blocks">
+      <div class="cd-unit"><span id="gDays">02</span><label>Days</label></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span id="gHours">08</span><label>Hours</label></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span id="gMins">24</span><label>Mins</label></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span id="gSecs">36</span><label>Secs</label></div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="deals-filters">
+  <div class="deals-filter-tabs">
+    <button class="deal-tab active" onclick="filterDeals('all', this)"><i class="fas fa-th"></i> All Deals</button>
+    <button class="deal-tab" onclick="filterDeals('flash', this)"><i class="fas fa-bolt"></i> Flash</button>
+    <button class="deal-tab" onclick="filterDeals('fashion', this)"><i class="fas fa-tshirt"></i> Fashion</button>
+    <button class="deal-tab" onclick="filterDeals('electronics', this)"><i class="fas fa-laptop"></i> Electronics</button>
+    <button class="deal-tab" onclick="filterDeals('beauty', this)"><i class="fas fa-spa"></i> Beauty</button>
+    <button class="deal-tab" onclick="filterDeals('home', this)"><i class="fas fa-couch"></i> Home</button>
+  </div>
+  <div class="deals-sort">
+    <select>
+      <option>Best Discount</option>
+      <option>Price: Low to High</option>
+      <option>Price: High to Low</option>
+      <option>Ending Soon</option>
+    </select>
+  </div>
+</div>
+
+<!-- FLASH DEAL BANNER -->
+<div class="flash-banner">
+  <div class="flash-content">
+    <div class="flash-badge"><i class="fas fa-bolt"></i> Flash Sale — Today Only!</div>
+    <h2>Electronics Up to <span>60% OFF</span></h2>
+    <p>Headphones, smartwatches, laptops &amp; more. Hurry — stock is limited!</p>
+  </div>
+  <div class="flash-timer">
+    <span class="timer-label">Ends in</span>
+    <div class="mini-countdown">
+      <div class="mini-cd-unit"><span id="fHours">04</span><label>Hrs</label></div>
+      <span class="mini-sep">:</span>
+      <div class="mini-cd-unit"><span id="fMins">17</span><label>Min</label></div>
+      <span class="mini-sep">:</span>
+      <div class="mini-cd-unit"><span id="fSecs">52</span><label>Sec</label></div>
+    </div>
+    <a href="#deals-grid" class="btn btn-primary">Shop Flash Sale <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- FEATURED DEALS -->
+<div class="featured-deal-section">
+  <div class="section-header">
+    <h2>Featured <span class="gradient-text">Deals</span></h2>
+    <a href="shop.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="featured-deals-grid">
+
+    <div class="featured-deal-card large" onclick="window.location='shop.html'">
+      <div class="fd-bg fd-bg-1"><i class="fas fa-headphones"></i></div>
+      <div class="fd-info">
+        <span class="fd-discount">-60% OFF</span>
+        <h3>Sony WH-1000XM5 Headphones</h3>
+        <p>Industry-leading noise cancellation. 30hr battery life.</p>
+        <div class="fd-prices"><span class="now">$139.99</span><span class="was">$349.99</span></div>
+        <div class="fd-stock">
+          <i class="fas fa-fire"></i> Only 8 left in stock
+          <div class="stock-bar"><div class="stock-fill" style="width:20%"></div></div>
+        </div>
+        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCartDirect('Sony WH-1000XM5','$139.99','fas fa-headphones')">
+          <i class="fas fa-shopping-bag"></i> Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="featured-deal-card" onclick="window.location='shop.html'">
+        <div class="fd-bg fd-bg-2"><i class="fas fa-tshirt"></i></div>
+        <div class="fd-info">
+          <span class="fd-discount">-40% OFF</span>
+          <h3>Summer Fashion Bundle</h3>
+          <p>3 premium outfits — mix &amp; match styles.</p>
+          <div class="fd-prices"><span class="now">$89.99</span><span class="was">$149.99</span></div>
+          <div class="fd-stock"><i class="fas fa-fire"></i> 23 left <div class="stock-bar"><div class="stock-fill" style="width:55%;background:var(--secondary)"></div></div></div>
+          <button class="btn btn-primary" onclick="event.stopPropagation(); addToCartDirect('Summer Fashion Bundle','$89.99','fas fa-tshirt')">
+            <i class="fas fa-shopping-bag"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+      <div class="featured-deal-card" onclick="window.location='shop.html'">
+        <div class="fd-bg fd-bg-3"><i class="fas fa-spa"></i></div>
+        <div class="fd-info">
+          <span class="fd-discount" style="background:var(--accent);color:var(--dark)">-35% OFF</span>
+          <h3>Luxury Skincare Collection</h3>
+          <p>8-piece premium skincare set for glowing skin.</p>
+          <div class="fd-prices"><span class="now">$64.99</span><span class="was">$99.99</span></div>
+          <div class="fd-stock" style="color:var(--accent)"><i class="fas fa-fire"></i> 42 left <div class="stock-bar"><div class="stock-fill" style="width:70%;background:var(--accent)"></div></div></div>
+          <button class="btn btn-primary" onclick="event.stopPropagation(); addToCartDirect('Luxury Skincare Collection','$64.99','fas fa-spa')">
+            <i class="fas fa-shopping-bag"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ALL DEALS GRID -->
+<div class="all-deals-section" id="deals-grid">
+  <div class="section-header">
+    <h2>All <span class="gradient-text">Deals</span></h2>
+    <span style="color:var(--text-muted);font-size:0.88rem;" id="dealCount">Showing 8 deals</span>
+  </div>
+  <div class="products-grid" id="dealsGrid">
+
+    <div class="deal-product-card" data-cat="flash electronics">
+      <div class="product-img">
+        <div class="img-placeholder electronics"><i class="fas fa-mobile-alt"></i></div>
+        <div class="product-badges"><span class="badge-sale">-45%</span></div>
+        <span class="savings-tag">Save $125</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="3" data-m="42" data-s="18">03:42:18</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Electronics</span>
+        <h4>Smart Watch Pro X</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(312)</span></div>
+        <div class="product-price"><span class="current">$154.99</span><span class="original">$279.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="flash fashion">
+      <div class="product-img">
+        <div class="img-placeholder"><i class="fas fa-tshirt"></i></div>
+        <div class="product-badges"><span class="badge-sale">-40%</span></div>
+        <span class="savings-tag">Save $40</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="5" data-m="10" data-s="44">05:10:44</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Fashion</span>
+        <h4>Premium Cotton Hoodie</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(128)</span></div>
+        <div class="product-price"><span class="current">$35.99</span><span class="original">$59.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="beauty">
+      <div class="product-img">
+        <div class="img-placeholder beauty"><i class="fas fa-spa"></i></div>
+        <div class="product-badges"><span class="badge-sale">-35%</span></div>
+        <span class="savings-tag">Save $31</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="11" data-m="5" data-s="30">11:05:30</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Beauty</span>
+        <h4>Luxury Skincare Set</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(67)</span></div>
+        <div class="product-price"><span class="current">$58.49</span><span class="original">$89.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="flash electronics">
+      <div class="product-img">
+        <div class="img-placeholder electronics"><i class="fas fa-headphones"></i></div>
+        <div class="product-badges"><span class="badge-sale">-25%</span></div>
+        <span class="savings-tag">Save $50</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="2" data-m="55" data-s="10">02:55:10</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Electronics</span>
+        <h4>Wireless Noise Cancelling</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>(94)</span></div>
+        <div class="product-price"><span class="current">$149.99</span><span class="original">$199.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="fashion">
+      <div class="product-img">
+        <div class="img-placeholder"><i class="fas fa-glasses"></i></div>
+        <div class="product-badges"><span class="badge-sale">-20%</span></div>
+        <span class="savings-tag">Save $20</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="18" data-m="0" data-s="0">18:00:00</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Fashion</span>
+        <h4>Designer Sunglasses</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(156)</span></div>
+        <div class="product-price"><span class="current">$79.99</span><span class="original">$99.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="home">
+      <div class="product-img">
+        <div class="img-placeholder home"><i class="fas fa-lightbulb"></i></div>
+        <div class="product-badges"><span class="badge-sale">-30%</span></div>
+        <span class="savings-tag">Save $19</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="22" data-m="30" data-s="0">22:30:00</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Home & Living</span>
+        <h4>Minimalist Desk Lamp</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(45)</span></div>
+        <div class="product-price"><span class="current">$31.49</span><span class="original">$44.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="flash beauty">
+      <div class="product-img">
+        <div class="img-placeholder beauty"><i class="fas fa-tint"></i></div>
+        <div class="product-badges"><span class="badge-sale">-50%</span></div>
+        <span class="savings-tag">Save $35</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="1" data-m="20" data-s="5">01:20:05</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Beauty</span>
+        <h4>Hydrating Face Serum</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>(89)</span></div>
+        <div class="product-price"><span class="current">$17.49</span><span class="original">$34.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="deal-product-card" data-cat="home">
+      <div class="product-img">
+        <div class="img-placeholder sports"><i class="fas fa-running"></i></div>
+        <div class="product-badges"><span class="badge-sale">-30%</span></div>
+        <span class="savings-tag">Save $35</span>
+        <div class="product-overlay">
+          <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+          <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="deal-timer-bar">
+        <span><i class="fas fa-clock"></i> Ends in</span>
+        <strong class="item-timer" data-h="14" data-m="0" data-s="0">14:00:00</strong>
+      </div>
+      <div class="product-info">
+        <span class="product-cat">Sports</span>
+        <h4>Pro Running Shoes</h4>
+        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>(203)</span></div>
+        <div class="product-price"><span class="current">$84.99</span><span class="original">$119.99</span></div>
+        <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COUPON CODES -->
+<div class="coupons-section">
+  <h2>Exclusive <span class="gradient-text">Coupon Codes</span></h2>
+  <div class="coupons-grid">
+
+    <div class="coupon-card">
+      <div class="coupon-icon"><i class="fas fa-percentage"></i></div>
+      <div class="coupon-info">
+        <div class="coupon-code">NOVA20</div>
+        <p>20% off on your first order. No minimum spend.</p>
+        <button class="copy-btn" onclick="copyCoupon('NOVA20', this)"><i class="fas fa-copy"></i> Copy Code</button>
+        <div class="coupon-expiry"><i class="fas fa-clock"></i> Expires: Dec 31, 2025</div>
+      </div>
+    </div>
+
+    <div class="coupon-card" style="border-color:rgba(255,101,132,0.3);">
+      <div class="coupon-icon secondary"><i class="fas fa-shipping-fast"></i></div>
+      <div class="coupon-info">
+        <div class="coupon-code">FREESHIP</div>
+        <p>Free shipping on any order, any size.</p>
+        <button class="copy-btn secondary-btn" onclick="copyCoupon('FREESHIP', this)"><i class="fas fa-copy"></i> Copy Code</button>
+        <div class="coupon-expiry"><i class="fas fa-clock"></i> Expires: Nov 30, 2025</div>
+      </div>
+    </div>
+
+    <div class="coupon-card" style="border-color:rgba(67,230,181,0.3);">
+      <div class="coupon-icon accent"><i class="fas fa-gift"></i></div>
+      <div class="coupon-info">
+        <div class="coupon-code">SAVE50</div>
+        <p>$50 off orders over $200. Electronics only.</p>
+        <button class="copy-btn accent-btn" onclick="copyCoupon('SAVE50', this)"><i class="fas fa-copy"></i> Copy Code</button>
+        <div class="coupon-expiry"><i class="fas fa-clock"></i> Expires: Oct 15, 2025</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter-content">
+    <h2>Never Miss a <span class="gradient-text">Deal Again</span></h2>
+    <p>Subscribe and get the hottest deals delivered straight to your inbox.</p>
+    <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+      <input type="email" placeholder="Enter your email address..." required/>
+      <button type="submit" class="btn btn-primary">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
+    <button onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total:</span><strong id="cartTotal">$0.00</strong></div>
+    <a href="checkout.html" class="btn btn-primary w-full">Checkout <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">Shop<span>Nova</span></a>
+      <p>Your premium destination for quality products at unbeatable prices.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="shop.html">All Products</a>
+      <a href="categories.html">Categories</a>
+      <a href="deals.html">Deals</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="contact.html">Contact Us</a>
+      <a href="#">FAQ</a>
+      <a href="#">Returns</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Blog</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ShopNova. All rights reserved.</p>
+    <div class="payment-icons">
+      <i class="fab fa-cc-visa"></i>
+      <i class="fab fa-cc-mastercard"></i>
+      <i class="fab fa-cc-paypal"></i>
+      <i class="fab fa-cc-apple-pay"></i>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+// ── GLOBAL COUNTDOWN (2 days) ──
+(function() {
+  let total = 2*86400 + 8*3600 + 24*60 + 36;
+  setInterval(() => {
+    if (total <= 0) return;
+    total--;
+    const d = Math.floor(total/86400);
+    const h = Math.floor((total%86400)/3600);
+    const m = Math.floor((total%3600)/60);
+    const s = total%60;
+    const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=String(v).padStart(2,'0'); };
+    set('gDays',d); set('gHours',h); set('gMins',m); set('gSecs',s);
+  }, 1000);
+})();
+
+// ── FLASH COUNTDOWN ──
+(function() {
+  let total = 4*3600 + 17*60 + 52;
+  setInterval(() => {
+    if (total <= 0) return;
+    total--;
+    const h = Math.floor(total/3600);
+    const m = Math.floor((total%3600)/60);
+    const s = total%60;
+    const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=String(v).padStart(2,'0'); };
+    set('fHours',h); set('fMins',m); set('fSecs',s);
+  }, 1000);
+})();
+
+// ── PER-ITEM TIMERS ──
+document.querySelectorAll('.item-timer').forEach(el => {
+  let h = parseInt(el.dataset.h), m = parseInt(el.dataset.m), s = parseInt(el.dataset.s);
+  let total = h*3600 + m*60 + s;
+  setInterval(() => {
+    if (total <= 0) { el.textContent = 'EXPIRED'; return; }
+    total--;
+    const hh = Math.floor(total/3600);
+    const mm = Math.floor((total%3600)/60);
+    const ss = total%60;
+    el.textContent = `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+    if (total < 3600) el.style.color = '#ff3366';
+  }, 1000);
+});
+
+// ── DEAL FILTER ──
+function filterDeals(cat, btn) {
+  document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.deal-product-card');
+  let count = 0;
+  cards.forEach(card => {
+    const cats = card.dataset.cat || '';
+    const show = cat === 'all' || cats.includes(cat);
+    card.style.display = show ? 'block' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('dealCount').textContent = `Showing ${count} deal${count!==1?'s':''}`;
+}
+
+// ── COUPON COPY ──
+function copyCoupon(code, btn) {
+  navigator.clipboard.writeText(code).catch(() => {});
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+  showToast(`Coupon "${code}" copied to clipboard! 🎉`);
+  setTimeout(() => btn.innerHTML = orig, 2000);
+}
+
+// ── ADD TO CART FROM FEATURED DEAL ──
+function addToCartDirect(name, price, icon) {
+  cart.push({ name, price, icon: icon + ' fa-2x', id: Date.now() });
+  cartCount++;
+  updateCartBadge();
+  renderCart();
+  showToast(`"${name}" added to cart 🛍️`);
+}
+
+// ── SCROLL ANIMATIONS ──
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.deal-product-card, .coupon-card, .featured-deal-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s';
+    observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>

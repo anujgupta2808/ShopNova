@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — ShopNova</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .page-hero { padding: 140px 5% 60px; text-align: center; background: radial-gradient(ellipse at top, rgba(108,99,255,0.1) 0%, transparent 60%); }
+    .page-hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 12px; }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 40px 5% 80px; max-width: 1200px; margin: 0 auto; }
+    .contact-info h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; }
+    .contact-info p { color: var(--text-muted); line-height: 1.7; margin-bottom: 36px; }
+    .contact-item { display: flex; align-items: center; gap: 16px; padding: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; }
+    .contact-icon { width: 50px; height: 50px; border-radius: 14px; background: rgba(108,99,255,0.15); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .contact-item strong { display: block; font-size: 0.9rem; margin-bottom: 4px; }
+    .contact-item span { font-size: 0.85rem; color: var(--text-muted); }
+    .contact-form-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input, .form-group textarea, .form-group select {
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    @media(max-width:768px) { .contact-layout { grid-template-columns: 1fr; } }
+    
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">Shop<span>Nova</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="deals.html">Deals</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="icon-btn" onclick="toggleCart()"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></button>
+    <button class="icon-btn hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="contact.html">Contact</a>
+</div>
+
+<div class="page-hero">
+  <h1>Get in <span class="gradient-text">Touch</span></h1>
+  <p>We're here to help. Reach out any time!</p>
+</div>
+
+<div class="contact-layout">
+  <div class="contact-info">
+    <h2>We'd love to <span class="gradient-text">hear from you</span></h2>
+    <p>Have questions about your order, need help with returns, or just want to say hi? Our support team is always ready to assist.</p>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+      <div><strong>Email Us</strong><span>support@shopnova.com</span></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-phone"></i></div>
+      <div><strong>Call Us</strong><span>+1 (800) 555-0100</span></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-clock"></i></div>
+      <div><strong>Working Hours</strong><span>Mon–Fri, 9am – 6pm EST</span></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <div><strong>Headquarters</strong><span>123 Commerce Ave, New York, NY 10001</span></div>
+    </div>
+  </div>
+
+  <div class="contact-form-card">
+    <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:28px;">Send a Message</h3>
+    <form onsubmit="sendMessage(event)">
+      <div class="form-group"><label>Your Name</label><input type="text" placeholder="John Doe" required/></div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@example.com" required/></div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select>
+          <option>Order Issue</option>
+          <option>Return / Refund</option>
+          <option>Product Inquiry</option>
+          <option>Partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea placeholder="Tell us how we can help..."></textarea></div>
+      <button type="submit" class="btn btn-primary w-full"><i class="fas fa-paper-plane"></i> Send Message</button>
+    </form>
+  </div>
+</div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header"><h3><i class="fas fa-shopping-bag"></i> Your Cart</h3><button onclick="toggleCart()"><i class="fas fa-times"></i></button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-total"><span>Total:</span><strong id="cartTotal">$0.00</strong></div><a href="checkout.html" class="btn btn-primary w-full">Checkout</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="footer">
+  <div class="footer-bottom" style="justify-content:center;"><p>© 2025 ShopNova. All rights reserved.</p></div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function sendMessage(e) {
+  e.preventDefault();
+  showToast('Message sent! We\'ll reply within 24 hours ✉️');
+  e.target.reset();
+}
+</script>
+</body>
+</html>

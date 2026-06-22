@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — ShopNova</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/shop.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">Shop<span>Nova</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="categories.html">Categories</a></li>
+    <li><a href="deals.html">Deals</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="icon-btn"><i class="fas fa-search"></i></button>
+    <button class="icon-btn"><i class="fas fa-heart"></i><span class="badge">3</span></button>
+    <button class="icon-btn" onclick="toggleCart()"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></button>
+    <button class="icon-btn hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="categories.html">Categories</a>
+  <a href="deals.html">Deals</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1>All <span class="gradient-text">Products</span></h1>
+  <p>Explore our full collection of premium products</p>
+</div>
+
+<!-- SHOP LAYOUT -->
+<div class="shop-layout">
+  <!-- SIDEBAR -->
+  <aside class="shop-sidebar">
+    <div class="filter-section">
+      <h4>Categories</h4>
+      <label class="filter-check"><input type="checkbox" checked/> All Products</label>
+      <label class="filter-check"><input type="checkbox"/> Fashion</label>
+      <label class="filter-check"><input type="checkbox"/> Electronics</label>
+      <label class="filter-check"><input type="checkbox"/> Beauty</label>
+      <label class="filter-check"><input type="checkbox"/> Home & Living</label>
+      <label class="filter-check"><input type="checkbox"/> Sports</label>
+    </div>
+    <div class="filter-section">
+      <h4>Price Range</h4>
+      <div class="price-range">
+        <input type="range" min="0" max="500" value="300" oninput="document.getElementById('priceVal').textContent = '$'+this.value"/>
+        <span id="priceVal">$300</span>
+      </div>
+    </div>
+    <div class="filter-section">
+      <h4>Rating</h4>
+      <label class="filter-check"><input type="radio" name="rating"/> ★★★★★ (5 Stars)</label>
+      <label class="filter-check"><input type="radio" name="rating"/> ★★★★☆ (4+ Stars)</label>
+      <label class="filter-check"><input type="radio" name="rating"/> ★★★☆☆ (3+ Stars)</label>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;">Apply Filters</button>
+  </aside>
+
+  <!-- PRODUCTS AREA -->
+  <div class="shop-main">
+    <div class="shop-toolbar">
+      <p><strong>48 Products</strong> found</p>
+      <div class="sort-select">
+        <select>
+          <option>Sort: Featured</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Newest First</option>
+          <option>Best Rating</option>
+        </select>
+      </div>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card" data-tag="new popular">
+        <div class="product-img">
+          <div class="img-placeholder"><i class="fas fa-tshirt"></i></div>
+          <div class="product-badges"><span class="badge-new">NEW</span></div>
+          <div class="product-overlay">
+            <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+            <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">Fashion</span>
+          <h4>Premium Cotton Hoodie</h4>
+          <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(128)</span></div>
+          <div class="product-price"><span class="current">$59.99</span></div>
+          <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-tag="sale popular">
+        <div class="product-img">
+          <div class="img-placeholder electronics"><i class="fas fa-headphones"></i></div>
+          <div class="product-badges"><span class="badge-sale">-25%</span></div>
+          <div class="product-overlay">
+            <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+            <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">Electronics</span>
+          <h4>Wireless Noise Cancelling</h4>
+          <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>(94)</span></div>
+          <div class="product-price"><span class="current">$149.99</span><span class="original">$199.99</span></div>
+          <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-tag="new">
+        <div class="product-img">
+          <div class="img-placeholder beauty"><i class="fas fa-spa"></i></div>
+          <div class="product-badges"><span class="badge-new">NEW</span></div>
+          <div class="product-overlay">
+            <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+            <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">Beauty</span>
+          <h4>Luxury Skincare Set</h4>
+          <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(67)</span></div>
+          <div class="product-price"><span class="current">$89.99</span></div>
+          <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-tag="sale">
+        <div class="product-img">
+          <div class="img-placeholder sports"><i class="fas fa-running"></i></div>
+          <div class="product-badges"><span class="badge-sale">-30%</span></div>
+          <div class="product-overlay">
+            <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+            <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">Sports</span>
+          <h4>Pro Running Shoes</h4>
+          <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><span>(203)</span></div>
+          <div class="product-price"><span class="current">$84.99</span><span class="original">$119.99</span></div>
+          <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-tag="popular">
+        <div class="product-img">
+          <div class="img-placeholder home"><i class="fas fa-lightbulb"></i></div>
+          <div class="product-overlay">
+            <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+            <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">Home & Living</span>
+          <h4>Minimalist Desk Lamp</h4>
+          <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(45)</span></div>
+          <div class="product-price"><span class="current">$44.99</span></div>
+          <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-tag="new sale">
+        <div class="product-img">
+          <div class="img-placeholder electronics"><i class="fas fa-mobile-alt"></i></div>
+          <div class="product-badges"><span class="badge-sale">-15%</span><span class="badge-new">NEW</span></div>
+          <div class="product-overlay">
+            <button class="overlay-btn"><i class="fas fa-eye"></i></button>
+            <button class="overlay-btn"><i class="fas fa-heart"></i></button>
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="product-cat">Electronics</span>
+          <h4>Smart Watch Pro X</h4>
+          <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(312)</span></div>
+          <div class="product-price"><span class="current">$254.99</span><span class="original">$299.99</span></div>
+          <button class="btn-cart" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <span>...</span>
+      <button class="page-btn">8</button>
+      <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
+    <button onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p></div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total:</span><strong id="cartTotal">$0.00</strong></div>
+    <a href="checkout.html" class="btn btn-primary w-full">Checkout <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="footer">
+  <div class="footer-bottom" style="justify-content:center;">
+    <p>© 2025 ShopNova. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
